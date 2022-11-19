@@ -1,4 +1,8 @@
-﻿namespace api;
+﻿using HotChocolate.Data.Filters;
+using HotChocolate.Types.Pagination;
+using Microsoft.Extensions.Options;
+
+namespace api;
 
 public class PostQueriesType : ObjectType<PostQueries>
 {
@@ -10,6 +14,14 @@ public class PostQueriesType : ObjectType<PostQueries>
 
         descriptor
             .Field(f => f.GetPosts(default!))
-            .Type<ListType<PostType>>();
+            .Type<ListType<PostType>>()
+            .UsePaging(options: new PagingOptions()
+            {
+                MaxPageSize = 10,
+                DefaultPageSize = 5,
+                IncludeTotalCount = true,
+            })
+            .UseFiltering<PostFilterType>()
+            .UseSorting<PostSortType>();
     }
 }
