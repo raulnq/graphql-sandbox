@@ -8,6 +8,7 @@ builder.Services.AddSingleton(new Storage() { Posts = new List<Post>(posts) });
 
 builder.Services
     .AddGraphQLServer()
+    .AddMutationConventions(applyToAllMutations: false)
     .AddQueryType<PostQueriesType>()
     .AddMutationType<PostMutationsType>()
     .AddFiltering()
